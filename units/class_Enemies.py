@@ -128,7 +128,9 @@ class Enemies(Sprite):
                                     angle=self.angle,
                                     shoter=self,
                                     kill_shot_distance=2000,
-                                    color='yellow'
+                                    color='yellow',
+                                    image='images/Rockets/shot1.png',
+                                    scale_value=.09
                                     )
                                 )
 

@@ -87,7 +87,8 @@ class Player(Sprite):
                                 angle=self.angle,
                                 shoter=self,
                                 kill_shot_distance=2000,
-                                image=
+                                image='images/Rockets/shot3.png',
+                                scale_value=.2
                                 )
                             )
 
