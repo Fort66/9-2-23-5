@@ -86,7 +86,8 @@ class Player(Sprite):
                                 speed=10,
                                 angle=self.angle,
                                 shoter=self,
-                                kill_shot_distance=2000
+                                kill_shot_distance=2000,
+                                image=
                                 )
                             )
 

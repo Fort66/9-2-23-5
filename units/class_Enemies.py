@@ -134,8 +134,8 @@ class Enemies(Sprite):
 
 
     def validate_first_shot(self):
-        if self.first_shot:
-            self.shots = False
+        if self.player.first_shot:
+            self.shots = True
 
 
     def update(self):
@@ -143,5 +143,6 @@ class Enemies(Sprite):
         self.rotation()
         self.check_move_count()
         self.move()
+        self.validate_first_shot()
         self.shot()
 

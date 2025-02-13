@@ -1,7 +1,8 @@
 import pygame as pg
 from pygame.sprite import Sprite
 from pygame.math import Vector2
-from pygame.transform import rotozoom
+from pygame.transform import rotozoom, scale_by
+from pygame.image import load
 
 from icecream import ic
 
@@ -31,8 +32,11 @@ class Shots(Sprite):
         self.kill_shot_distance = kill_shot_distance
         self.damage = damage
         self.old_shot_coordinate = Vector2(self.shoter.rect.center)
-        self.image = pg.Surface(size, pg.SRCALPHA)
-        self.image.fill(color)
+        if image:
+            self.image = scale_by(load(image).convert_alpha(), scale_value)
+        else:
+            self.image = pg.Surface(size, pg.SRCALPHA)
+            self.image.fill(color)
 
         self.image_rotation = rotozoom(self.image, self.angle, 1)
         self.rect = self.image_rotation.get_rect(center=pos)
