@@ -7,6 +7,7 @@ from pygame.key import get_pressed
 from units.class_Shots import Shots
 from config.create_Objects import screen
 from logic.class_FirstShot import FirstShot
+from classes.class_Animator import Animator
 
 from icecream import ic
 
@@ -56,6 +57,11 @@ class Enemies(Sprite):
 
         self.rect = self.image_rotation.get_rect(center=self.pos)
         self.direction = Vector2(self.pos)
+        self.shield = Animator(
+                                dir_path='images/Guards/guard2',
+                                speed_frame=.09,
+                                obj_rect=self.rect,
+                                )
 
 
     def rotation(self):
@@ -145,6 +151,7 @@ class Enemies(Sprite):
         self.rotation()
         self.check_move_count()
         self.move()
+        self.shield.animate(self.rect)
         self.validate_first_shot()
         self.shot()
 

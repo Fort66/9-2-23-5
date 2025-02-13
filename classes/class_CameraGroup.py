@@ -22,19 +22,22 @@ class CameraGroup(Group):
         self.source = back
         self.background_surface = load(self.source).convert_alpha()
         self.background_rect = self.background_surface.get_rect(center=self.game.screen.rect.center)
-        
-    
+
+
     def camera_center(self, target):
         self.offset.x = target.rect.centerx - self.half[0]
         self.offset.y = target.rect.centery - self.half[1]
-        
-    
+
+
     def custom_draw(self, player):
         self.camera_center(player)
 
         self.background_offset = self.background_rect.topleft - self.offset
         self.display_surface.blit(self.background_surface, self.background_offset)
-        
+
         for sprite in sorted(self.sprites(), key=lambda sprite: sprite.rect.centery):
             offset_position = sprite.rect.topleft - self.offset
             self.display_surface.blit(sprite.image_rotation, offset_position)
+
+            if sprite.shield:
+                self.display_surface.blit(sprite.shield.frames[sprite.shield.frame][0], offset_position)

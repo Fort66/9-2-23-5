@@ -51,6 +51,6 @@ class Game:
             self.camera_group.update()
             self.camera_group.custom_draw(self.player)
 
-
+            self.screen.update_caption(f'{str(round(self.clock.get_fps(), 2))}')
             pg.display.update()
-            self.clock.tick(self.fps)
+            self.clock.tick()

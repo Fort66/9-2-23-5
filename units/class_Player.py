@@ -8,6 +8,7 @@ from pygame.key import get_pressed
 import math
 
 from units.class_Shots import Shots
+from units.class_Guardian import Guardian
 from config.create_Objects import screen
 from logic.class_FirstShot import FirstShot
 
@@ -33,6 +34,13 @@ class Player(Sprite):
         self.rotation_speed = HEROES[1]['rotation_speed']
         self.__post_init__()
         self.prepare_weapons(0)
+        
+        self.shield = Guardian(
+                                dir_path='images/Guards/guard1',
+                                speed_frame=.09,
+                                obj_rect=self.rect
+                                )
+        
         self.group.add(self)
 
 
@@ -129,6 +137,7 @@ class Player(Sprite):
     def update(self):
         self.ckeck_position()
         self.move()
+        self.shield.animate(self.rect)
 
         for value in self.pos_weapons_rotation:
             value[0] += self.direction.x
