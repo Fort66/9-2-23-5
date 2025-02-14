@@ -7,6 +7,8 @@ from time import time
 
 from icecream import ic
 
+import numpy as np
+
 
 class Animator:
     def __init__(
@@ -31,12 +33,14 @@ class Animator:
 
     def __post_init__(self):
         file_list = listdir(self.dir_path)
-        self.original_frames = [[scale(load(f'{self.dir_path}/{value}').convert_alpha(), self.obj_rect[2:]), self.speed_frame] for value in file_list]
+        self.original_frames = np.array([[scale(load(f'{self.dir_path}/{value}').convert_alpha(), self.obj_rect[2:]), self.speed_frame] for value in file_list])
         self.frames = self.original_frames.copy()
-        self.rect = self.frames[0][0].get_rect(center=self.obj_rect.center)
+        # self.rect = self.frames[0][0].get_rect(center=self.obj_rect.center)
 
 
-    def animate(self, obj):
+    def animate(self, obj_rect):
+        self.obj_rect = obj_rect
+
         if self.frame_time == 0:
             self.frame_time = time()
 
@@ -44,6 +48,10 @@ class Animator:
             self.frame = self.frame + 1 if self.frame < len(self.frames) - 1 else 0
             scale(self.frames[self.frame][0], self.obj_rect[2:])
             self.frame_time = time()
+
+            self.frames[self.frame][0] = self.original_frames[self.frame][0].copy()
+            self.frames[self.frame][0] = scale(self.frames[self.frame][0], self.obj_rect[2:])
+
             if self.frame >= len(self.frames) - 1:
                 self.loops[0] += 1
 

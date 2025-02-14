@@ -39,5 +39,5 @@ class CameraGroup(Group):
             offset_position = sprite.rect.topleft - self.offset
             self.display_surface.blit(sprite.image_rotation, offset_position)
 
-            if sprite.shield:
+            if hasattr(sprite, 'shield') and sprite.shield:
                 self.display_surface.blit(sprite.shield.frames[sprite.shield.frame][0], offset_position)

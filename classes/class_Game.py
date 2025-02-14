@@ -1,6 +1,7 @@
 import pygame as pg
 from pygame.transform import scale, flip
 from pygame.image import load
+from pygame.sprite import GroupSingle, Group
 
 from icecream import ic
 
@@ -24,6 +25,10 @@ class Game:
 
     def create_groups(self):
         self.camera_group = CameraGroup(self)
+        self.player_group = GroupSingle()
+        self.enemies_group = Group()
+        self.enemies_shot = Group()
+        self.player_shot = Group()
 
     def setup(self):
         self.player = Player(
@@ -32,7 +37,7 @@ class Game:
                             )
 
 
-        for _ in range(10):
+        for _ in range(30):
             self.camera_group.add(
                                 Enemies(
                                         group=self.camera_group,
@@ -53,4 +58,4 @@ class Game:
 
             self.screen.update_caption(f'{str(round(self.clock.get_fps(), 2))}')
             pg.display.update()
-            self.clock.tick()
+            self.clock.tick(self.fps)

@@ -34,7 +34,7 @@ class Enemies(Sprite):
         self.direction_list = [0, 1, -1]
         self.moveX = choice(self.direction_list)
         self.moveY = choice(self.direction_list)
-        self.shots = False
+
         self.min_distance = 300
         self.shot_distance = 1500
         self.is_min_distance = False
@@ -43,7 +43,9 @@ class Enemies(Sprite):
         self.group.add(self)
 
     def __post_init__(self):
-        self.image_rotation = ENEMIES[1]['angle'][0]['sprite']
+        self.image = ENEMIES[1]['angle'][0]['sprite']
+        self.image_rotation = self.image.copy()
+        self.rect = self.image_rotation.get_rect()
 
         self.pos = (uniform(
                             self.group.background_rect.left + 200,
@@ -55,8 +57,9 @@ class Enemies(Sprite):
                             )
                     )
 
-        self.rect = self.image_rotation.get_rect(center=self.pos)
+        self.rect.center = self.pos
         self.direction = Vector2(self.pos)
+        
         self.shield = Animator(
                                 dir_path='images/Guards/guard2',
                                 speed_frame=.09,
@@ -124,7 +127,7 @@ class Enemies(Sprite):
 
     def shot(self):
         if Vector2(self.rect.center).distance_to(self.player.rect.center) <= self.shot_distance:
-            if self.shots and randint(0, 100) == 50:
+            if self.player.first_shot and randint(0, 100) == 50:
                 self.group.add(
                                 Shots(
                                     pos=self.rect.center,
@@ -141,10 +144,6 @@ class Enemies(Sprite):
                                 )
 
 
-    def validate_first_shot(self):
-        if self.player.first_shot:
-            self.shots = True
-
 
     def update(self):
         self.ckeck_position()
@@ -152,6 +151,5 @@ class Enemies(Sprite):
         self.check_move_count()
         self.move()
         self.shield.animate(self.rect)
-        self.validate_first_shot()
         self.shot()
 

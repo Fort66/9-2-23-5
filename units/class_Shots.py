@@ -31,7 +31,6 @@ class Shots(Sprite):
         self.shoter = shoter
         self.kill_shot_distance = kill_shot_distance
         self.damage = damage
-        self.shield = None
         self.old_shot_coordinate = Vector2(self.shoter.rect.center)
         if image:
             self.image = scale_by(load(image).convert_alpha(), scale_value)
