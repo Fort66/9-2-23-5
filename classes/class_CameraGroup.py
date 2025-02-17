@@ -21,7 +21,7 @@ class CameraGroup(Group):
     def set_background(self):
         self.source = back
         self.background_surface = load(self.source).convert_alpha()
-        self.background_rect = self.background_surface.get_rect(center=self.game.screen.rect.center)
+        self.background_rect = self.background_surface.get_rect()
 
 
     def camera_center(self, target):

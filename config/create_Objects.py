@@ -6,8 +6,6 @@
 
 
 from UI.screens.class_ScreenGame import ScreenGame
-from logic.class_FirstShot import FirstShot
-
 
 
 # экземпляр класса ScreenGame (окно игры)
@@ -19,5 +17,3 @@ screen = ScreenGame(size = (1280, 720),
                     is_full_screen = False) #полноэкранный True/False
 
 
-# экземпляр класса FirstShot (первый выстрел)
-# first_shot = FirstShot()

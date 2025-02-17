@@ -13,7 +13,7 @@ def main():
     game.run_game()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
     pg.quit()
     exit()
