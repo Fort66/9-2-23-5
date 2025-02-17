@@ -8,6 +8,7 @@ from units.class_Player import Player
 from units.class_Enemies import Enemies
 
 from classes.class_SpriteGroups import SpriteGroups
+from UI.screens.class_MiniMap import MiniMap
 
 
 class Game:
@@ -19,6 +20,7 @@ class Game:
         self.clock = pg.time.Clock()
         self.sprite_groups = SpriteGroups()
         self.sprite_groups.camera_group = CameraGroup(self)
+        self.min_map = MiniMap(scale_value=.25, color_map=(0, 100, 0, 128))
         self.setup()
 
     def setup(self):
