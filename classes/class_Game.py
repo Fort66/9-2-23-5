@@ -26,7 +26,7 @@ class Game:
     def setup(self):
         self.player = Player(pos=screen.rect.center)
 
-        for _ in range(10):
+        for _ in range(1):
             self.sprite_groups.camera_group.add(Enemies(player=self.player))
 
     def run_game(self):

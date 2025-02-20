@@ -9,17 +9,24 @@ from icecream import ic
 
 import numpy as np
 
+from classes.class_SpriteGroups import SpriteGroups
+
 
 class Animator:
     def __init__(
                 self,
                 dir_path=None,
                 speed_frame=None,
+                obj=None,
                 obj_rect=None
                 ):
+        self.sprite_groups = SpriteGroups()
+        super().__init__(self.sprite_groups.camera_group)
+
 
         self.dir_path = dir_path
         self.speed_frame = speed_frame
+        self.obj = obj
         self.obj_rect = obj_rect
 
         self.frames = None
@@ -35,11 +42,12 @@ class Animator:
         file_list = listdir(self.dir_path)
         self.original_frames = np.array([[scale(load(f'{self.dir_path}/{value}').convert_alpha(), self.obj_rect[2:]), self.speed_frame] for value in file_list])
         self.frames = self.original_frames.copy()
-        # self.rect = self.frames[0][0].get_rect(center=self.obj_rect.center)
+        self.image_rotation = self.frames[self.frame][0]
+        self.rect = self.frames[0][0].get_rect(center=self.obj_rect.center)
 
 
-    def animate(self, obj_rect):
-        self.obj_rect = obj_rect
+    def update(self):
+        self.obj_rect = self.obj.rect
 
         if self.frame_time == 0:
             self.frame_time = time()
@@ -52,8 +60,13 @@ class Animator:
             self.frames[self.frame][0] = self.original_frames[self.frame][0].copy()
             self.frames[self.frame][0] = scale(self.frames[self.frame][0], self.obj_rect[2:])
 
-            if self.frame >= len(self.frames) - 1:
-                self.loops[0] += 1
+
+        self.image_rotation = self.frames[self.frame][0]
+        self.rect = self.image_rotation.get_rect(center=self.obj_rect.center)
+
+    # def update(self):
+    #     self.rect = self.frames[0][0].get_rect(center=self.obj_rect.center)
+
 
 
 

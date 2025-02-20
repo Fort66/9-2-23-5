@@ -2,7 +2,7 @@ from pygame.sprite import Sprite
 from pygame.transform import rotozoom
 from pygame.math import Vector2
 from units.class_Shots import Shots
-from classes.class_Animator import Animator
+from units.class_Guardian import Guardian
 
 from icecream import ic
 
@@ -12,7 +12,10 @@ from random import randint, choice, uniform
 from config.sources.enemies.source import ENEMIES
 
 from classes.class_SpriteGroups import SpriteGroups
-from config.create_Objects import checks
+from config.create_Objects import checks, weapons
+
+
+from functions.function_enemies_collision import enemies_collision
 
 
 class Enemies(Sprite):
@@ -53,11 +56,25 @@ class Enemies(Sprite):
         self.rect.center = self.pos
         self.direction = Vector2(self.pos)
 
-        self.shield = Animator(
+        self.shield = Guardian(
             dir_path="images/Guards/guard2",
             speed_frame=0.09,
             obj_rect=self.rect,
+            guard_level=randint(3, 10),
+            obj=self,
         )
+
+        self.sprite_groups.enemies_guard_group.add(self.shield)
+
+        self.prepare_weapons(0)
+
+    def prepare_weapons(self, angle):
+        weapons.load_weapons(
+            obj=self, source=ENEMIES[1]["angle"][angle]["weapons"], angle=angle
+        )
+
+    def pos_weapons_rotation(self):
+        return weapons.pos_rotation(obj=self, angle=self.angle)
 
     def rotation(self):
         rotateX = self.player.rect.centerx - self.rect.centerx
@@ -92,7 +109,7 @@ class Enemies(Sprite):
         self.moveX = choice(self.direction_list)
         self.moveY = choice(self.direction_list)
 
-    def ckeck_position(self):
+    def check_position(self):
         if checks.position(self, self.sprite_groups.camera_group.background_rect):
             self.change_direction()
 
@@ -118,24 +135,34 @@ class Enemies(Sprite):
             <= self.shot_distance
         ):
             if self.player.first_shot and randint(0, 100) == 50:
-                self.sprite_groups.camera_group.add(
-                    shot := Shots(
-                        pos=self.rect.center,
-                        speed=10,
-                        angle=self.angle,
-                        shoter=self,
-                        kill_shot_distance=2000,
-                        color="yellow",
-                        image="images/Rockets/shot1.png",
-                        scale_value=0.09,
+                value = self.pos_weapons_rotation()
+                for pos in value:
+                    self.sprite_groups.camera_group.add(
+                        shot := Shots(
+                            pos=(pos),
+                            speed=10,
+                            angle=self.angle,
+                            shoter=self,
+                            kill_shot_distance=2000,
+                            color="yellow",
+                            image="images/Rockets/shot1.png",
+                            scale_value=0.09,
+                        )
                     )
-                )
-                self.sprite_groups.enemies_shot_group.add(shot)
+                    self.sprite_groups.enemies_shot_group.add(shot)
 
     def update(self):
-        self.ckeck_position()
+        self.check_position()
         self.rotation()
         self.check_move_count()
-        self.move()
-        self.shield.animate(self.rect)
+        # self.move()
+        # self.shield.animate(self.rect)
         self.shot()
+
+        if not len(self.sprite_groups.enemies_guard_group):
+            enemies_collision(self)
+
+        value = self.pos_weapons_rotation()
+        for pos in value:
+            pos[0] += self.direction.x
+            pos[1] += self.direction.y
