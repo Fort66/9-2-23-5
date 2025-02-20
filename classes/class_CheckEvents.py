@@ -1,5 +1,5 @@
 import pygame as pg
-from pygame.locals import QUIT, KEYDOWN, K_ESCAPE
+from pygame.locals import QUIT, KEYDOWN, K_ESCAPE, VIDEORESIZE
 
 
 class CheckEvents:
@@ -12,3 +12,6 @@ class CheckEvents:
                 self.game.run = False
 
             self.game.player.handle_event(event)
+            
+            if event.type == VIDEORESIZE:
+                self.game.screen.rect = self.game.screen.window.get_rect()

@@ -14,6 +14,7 @@ from icecream import ic
 from config.sources.heroes.source import HEROES
 
 from classes.class_SpriteGroups import SpriteGroups
+from config.create_Objects import checks
 
 
 class Player(Sprite):
@@ -104,14 +105,7 @@ class Player(Sprite):
         self.rect = self.image_rotation.get_rect(center=self.rect.center)
 
     def ckeck_position(self):
-        if self.rect.left < self.sprite_groups.camera_group.background_rect.left:
-            self.rect.left = self.sprite_groups.camera_group.background_rect.left
-        if self.rect.right > self.sprite_groups.camera_group.background_rect.right:
-            self.rect.right = self.sprite_groups.camera_group.background_rect.right
-        if self.rect.top < self.sprite_groups.camera_group.background_rect.top:
-            self.rect.top = self.sprite_groups.camera_group.background_rect.top
-        if self.rect.bottom > self.sprite_groups.camera_group.background_rect.bottom:
-            self.rect.bottom = self.sprite_groups.camera_group.background_rect.bottom
+        checks.position(self, self.sprite_groups.camera_group.background_rect)
 
     def move(self):
         keys = get_pressed()

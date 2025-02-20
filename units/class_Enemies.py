@@ -12,6 +12,7 @@ from random import randint, choice, uniform
 from config.sources.enemies.source import ENEMIES
 
 from classes.class_SpriteGroups import SpriteGroups
+from config.create_Objects import checks
 
 
 class Enemies(Sprite):
@@ -92,17 +93,7 @@ class Enemies(Sprite):
         self.moveY = choice(self.direction_list)
 
     def ckeck_position(self):
-        if self.rect.left < self.sprite_groups.camera_group.background_rect.left:
-            self.rect.left = self.sprite_groups.camera_group.background_rect.left
-            self.change_direction()
-        if self.rect.right > self.sprite_groups.camera_group.background_rect.right:
-            self.rect.right = self.sprite_groups.camera_group.background_rect.right
-            self.change_direction()
-        if self.rect.top < self.sprite_groups.camera_group.background_rect.top:
-            self.rect.top = self.sprite_groups.camera_group.background_rect.top
-            self.change_direction()
-        if self.rect.bottom > self.sprite_groups.camera_group.background_rect.bottom:
-            self.rect.bottom = self.sprite_groups.camera_group.background_rect.bottom
+        if checks.position(self, self.sprite_groups.camera_group.background_rect):
             self.change_direction()
 
         if not self.is_min_distance:

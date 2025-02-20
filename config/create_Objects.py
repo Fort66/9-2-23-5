@@ -6,6 +6,7 @@
 
 
 from UI.screens.class_ScreenGame import ScreenGame
+from logic.class_Checks import Checks
 
 
 # экземпляр класса ScreenGame (окно игры)
@@ -16,4 +17,5 @@ screen = ScreenGame(size = (1280, 720),
                     is_resizable = True, # изменяемый размер True/False
                     is_full_screen = False) #полноэкранный True/False
 
+checks = Checks()
 

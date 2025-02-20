@@ -8,13 +8,13 @@ from classes.class_SpriteGroups import SpriteGroups
 class MiniMap:
     def __init__(self, scale_value=0.25, color_map=(0, 100, 0, 255)):
         self.sprite_groups = SpriteGroups()
-        self.old_screen_rect = screen.window.get_rect()
+        self.old_screen_size = screen.window.get_size()
         self.scale_value = scale_value
         self.color_map = color_map
         self.set_map()
 
     def set_map(self):
-        self.map_surface = pg.Surface(screen.window.get_rect(), pg.SRCALPHA)
+        self.map_surface = pg.Surface(screen.window.get_size(), pg.SRCALPHA)
         self.map_surface = scale_by(self.map_surface, self.scale_value)
         self.map_size = self.map_surface.get_size()
         self.map_surface.fill(self.color_map)
@@ -25,12 +25,12 @@ class MiniMap:
             self.map_size[1] / self.sprite_groups.camera_group.background_rect[3]
         )
 
-        self.map_rect = self.map_surface.get_rect(bottomright=screen.rect.bottomright)
+        self.map_rect = self.map_surface.get_rect(bottomleft=screen.rect.bottomleft)
 
     def change_size_map(self):
-        if self.old_screen_rect != screen.window.get_rect():
+        if self.old_screen_size != screen.window.get_size():
             self.set_map()
-            self.old_screen_rect = screen.window.get_rect()
+            self.old_screen_size = screen.window.get_size()
 
     def draw_player(self):
         for player in self.sprite_groups.player_group:
@@ -89,5 +89,5 @@ class MiniMap:
         self.draw_enemies_shot()
         screen.window.blit(
             self.map_surface,
-            (screen.rect[2] - self.map_size[0], screen.rect[3] - self.map_size[1]),
+            self.map_rect,
         )
