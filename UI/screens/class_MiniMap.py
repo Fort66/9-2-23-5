@@ -6,7 +6,7 @@ from classes.class_SpriteGroups import SpriteGroups
 
 
 class MiniMap:
-    def __init__(self, scale_value=0.25, color_map=(0, 100, 0, 255)):
+    def __init__(self, scale_value=0.15, color_map=(0, 100, 0, 255)):
         self.sprite_groups = SpriteGroups()
         self.old_screen_size = screen.window.get_size()
         self.scale_value = scale_value
@@ -25,7 +25,7 @@ class MiniMap:
             self.map_size[1] / self.sprite_groups.camera_group.background_rect[3]
         )
 
-        self.map_rect = self.map_surface.get_rect(bottomleft=screen.rect.bottomleft)
+        self.map_rect = self.map_surface.get_rect(topleft=screen.rect.topleft)
 
     def change_size_map(self):
         if self.old_screen_size != screen.window.get_size():

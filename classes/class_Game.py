@@ -20,7 +20,7 @@ class Game:
         self.clock = pg.time.Clock()
         self.sprite_groups = SpriteGroups()
         self.sprite_groups.camera_group = CameraGroup(self)
-        self.mini_map = MiniMap(scale_value=.20, color_map=(0, 100, 0, 170))
+        self.mini_map = MiniMap(scale_value=.15, color_map=(0, 100, 0, 170))
         self.setup()
 
     def setup(self):
