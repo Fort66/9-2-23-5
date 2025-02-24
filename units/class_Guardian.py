@@ -2,6 +2,7 @@ from pygame.sprite import Sprite
 from classes.class_Animator import Animator
 from functions.function_guards_collision import player_guard_collision, enemies_guard_collision, guards_collision
 
+from time import time
 
 
 class Guardian(Animator, Sprite):
@@ -21,16 +22,18 @@ class Guardian(Animator, Sprite):
             )
 
         self.guard_level = guard_level
+        self.destruction_time = 0
         # self.obj_rect = obj_rect
 
-    @property
-    def decrease_level(self):
+    def decrease_level(self, value):
         if self.guard_level > 0:
-            self.guard_level -= 1
+            self.guard_level -= value
 
 
     def update(self):
-        player_guard_collision(self)
-        enemies_guard_collision(self)
-        guards_collision(self)
+        player_guard_collision()
+        enemies_guard_collision()
+        guards_collision()
+            # if self.destruction_time <= 0:
+            #     self.destruction_time = time()
         super().update()
