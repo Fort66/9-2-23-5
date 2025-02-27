@@ -8,7 +8,10 @@ from icecream import ic
 
 from classes.class_SpriteGroups import SpriteGroups
 from functions.function_shots_collision import (
-    shot_collision
+    player_guard_collision,
+    enemies_shot_collision,
+    shots_collision,
+    distance_collision
     )
 
 
@@ -55,6 +58,7 @@ class Shots(Sprite):
             Vector2(self.rect.center).distance_to(self.old_shot_coordinate)
             > self.kill_shot_distance
         ):
+            distance_collision(self)
             self.kill()
 
     def move(self):
@@ -64,6 +68,6 @@ class Shots(Sprite):
     def update(self):
         self.check_position()
         self.move()
-        shot_collision(self)
-        # player_shot_collision(self)
-        # enemies_shot_collision(self)
+        player_guard_collision(self)
+        enemies_shot_collision(self)
+        shots_collision()

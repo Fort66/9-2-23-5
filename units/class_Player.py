@@ -25,6 +25,7 @@ class Player(Sprite):
     ):
         self.sprite_groups = SpriteGroups()
         super().__init__(self.sprite_groups.camera_group)
+        self.sprite_groups.camera_group.add(self)
         self.sprite_groups.player_group.add(self)
 
         self.pos = pos
@@ -39,7 +40,7 @@ class Player(Sprite):
         self.speed = HEROES[1]["speed"]
         self.rotation_speed = HEROES[1]["rotation_speed"]
 
-        self.sprite_groups.player_group.add(shield:= Guardian(
+        self.sprite_groups.camera_group.add(shield:= Guardian(
             dir_path="images/Guards/guard1",
             speed_frame=0.09,
             obj=self,
