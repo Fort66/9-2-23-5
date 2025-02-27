@@ -4,7 +4,7 @@ from pygame.image import load
 from icecream import ic
 
 SCALE_VALUE = {
-                1: .25,
+                1: .225,
                 }
 
 # WEAPONS_POSITION = {}

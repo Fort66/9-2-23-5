@@ -2,7 +2,7 @@ from pygame.transform import flip, scale_by
 from pygame.image import load
 
 SCALE_VALUE = {
-                1: .25,
+                1: .225,
                }
 
 

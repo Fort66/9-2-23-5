@@ -41,7 +41,7 @@ class Guardian(Animator, Sprite):
 
     def update(self):
         player_guard_collision()
-        # enemies_guard_collision()
+        enemies_guard_collision()
         # guards_collision()
 
         self.angle = self.obj.angle
@@ -50,5 +50,5 @@ class Guardian(Animator, Sprite):
         self.image_rotation = rotozoom(self.image_rotation, self.angle, 1)
         self.rect = self.image_rotation.get_rect(center=self.obj.rect.center) #TODO
         super().animate()
-            # if self.destruction_time <= 0:
-            #     self.destruction_time = time()
+        if self.destruction_time <= 0:
+            self.destruction_time = time()

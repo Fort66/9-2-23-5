@@ -142,7 +142,7 @@ class Enemies(Sprite):
                 value = self.pos_weapons_rotation()
                 for pos in value:
                     self.sprite_groups.camera_group.add(
-                        shot := Shots(
+                        shot:= Shots(
                             pos=(pos),
                             speed=10,
                             angle=self.angle,
