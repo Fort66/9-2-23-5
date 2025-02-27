@@ -29,6 +29,7 @@ class Enemies(Sprite):
         self.min_distance = 300
         self.shot_distance = 1500
         self.is_min_distance = False
+        self.hp = 2
         self.__post_init__()
         self.random_value()
         self.change_direction()
@@ -56,17 +57,19 @@ class Enemies(Sprite):
         self.rect.center = self.pos
         self.direction = Vector2(self.pos)
 
-        self.sprite_groups.enemies_group.add(shield:= Guardian(
-            dir_path="images/Guards/guard2",
-            speed_frame=0.09,
-            obj=self,
-            guard_level=randint(3, 10),
-            loops=-1,
-            size=self.rect.size,
-            angle=self.angle,
-            scale_value=(1, 1),
-            owner=self
-        ))
+        self.sprite_groups.enemies_group.add(
+            shield := Guardian(
+                dir_path="images/Guards/guard2",
+                speed_frame=0.09,
+                obj=self,
+                guard_level=randint(3, 10),
+                loops=-1,
+                size=self.rect.size,
+                angle=self.angle,
+                scale_value=(1, 1),
+                owner=self,
+            )
+        )
 
         self.sprite_groups.enemies_guard_group.add(shield)
 
@@ -100,7 +103,7 @@ class Enemies(Sprite):
 
     def random_value(self):
         self.move_count = randint(0, 600)
-        self.speed = randint(0, 10)
+        self.speed = randint(0, 5)
         self.direction_list = [0, 1, -1]
 
     def check_move_count(self):
@@ -142,19 +145,26 @@ class Enemies(Sprite):
                 value = self.pos_weapons_rotation()
                 for pos in value:
                     self.sprite_groups.camera_group.add(
-                        shot:= Shots(
+                        shot := Shots(
                             pos=(pos),
-                            speed=10,
+                            speed=8,
                             angle=self.angle,
                             shoter=self,
                             kill_shot_distance=2000,
                             color="yellow",
                             image="images/Rockets/shot1.png",
                             scale_value=0.09,
-                            owner=self
+                            owner=self,
                         )
                     )
                     self.sprite_groups.enemies_shot_group.add(shot)
+
+    def decrease_hp(self, value):
+        if self.hp > 0:
+            self.hp -= value
+
+        if self.hp <= 0:
+            self.kill()
 
     def update(self):
         self.check_position()

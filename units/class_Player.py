@@ -18,6 +18,7 @@ from config.create_Objects import checks, weapons
 
 from functions.function_player_collision import player_collision
 
+
 class Player(Sprite):
     def __init__(
         self,
@@ -32,6 +33,7 @@ class Player(Sprite):
         self.direction = Vector2(pos)
         self.angle = 0
         self.first_shot = False
+        self.hp = 5
         self.__post_init__()
 
     def __post_init__(self):
@@ -40,17 +42,19 @@ class Player(Sprite):
         self.speed = HEROES[1]["speed"]
         self.rotation_speed = HEROES[1]["rotation_speed"]
 
-        self.sprite_groups.camera_group.add(shield:= Guardian(
-            dir_path="images/Guards/guard1",
-            speed_frame=0.09,
-            obj=self,
-            guard_level=10,
-            loops=-1,
-            angle=self.angle,
-            scale_value=(1, 1),
-            size=self.rect.size,
-            owner=self
-        ))
+        self.sprite_groups.camera_group.add(
+            shield := Guardian(
+                dir_path="images/Guards/guard1",
+                speed_frame=0.09,
+                obj=self,
+                guard_level=10,
+                loops=-1,
+                angle=self.angle,
+                scale_value=(1, 1),
+                size=self.rect.size,
+                owner=self,
+            )
+        )
         self.sprite_groups.player_guard_group.add(shield)
 
         self.prepare_weapons(0)
@@ -82,15 +86,15 @@ class Player(Sprite):
         value = self.pos_weapons_rotation()
         for pos in value:
             self.sprite_groups.camera_group.add(
-                shot:= Shots(
+                shot := Shots(
                     pos=(pos),
-                    speed=10,
+                    speed=8,
                     angle=self.angle,
                     shoter=self,
                     kill_shot_distance=2000,
                     image="images/Rockets/shot3.png",
                     scale_value=0.2,
-                    owner=self
+                    owner=self,
                 )
             )
             self.sprite_groups.player_shot_group.add(shot)
@@ -118,6 +122,12 @@ class Player(Sprite):
             self.rect.move_ip(0, -self.speed)
         if keys[K_s]:
             self.rect.move_ip(0, self.speed)
+
+    def decrease_hp(self, value):
+        if self.hp > 0:
+            self.hp -= value
+        if self.hp <= 0:
+            self.kill()
 
     def update(self):
         self.check_position()
