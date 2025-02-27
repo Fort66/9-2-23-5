@@ -3,8 +3,10 @@ from pygame.display import get_surface
 from pygame.image import load
 from pygame.sprite import Group
 from pygame.math import Vector2
+from config.sources.backgrounds.source import GALAXY_SECTORS
+from config.create_Objects import levels_game
 
-back = 'images/backgrounds/back20.jpg'
+
 
 class CameraGroup(Group):
     def __init__(self,
@@ -19,7 +21,7 @@ class CameraGroup(Group):
         self.set_background()
 
     def set_background(self):
-        self.source = back
+        self.source = GALAXY_SECTORS[levels_game.current_level]
         self.background_surface = load(self.source).convert_alpha()
         self.background_rect = self.background_surface.get_rect()
 

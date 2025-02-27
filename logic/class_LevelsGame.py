@@ -1,25 +1,32 @@
 from pygame.math import lerp
 
+
 class LevelsGame:
     __instance = None
-    
+
     __levels_dict = {
-        'player_level': 1,
-        'game_level': 1,
-        'enemies_level': 1,
-        'atack_level': 2,
-        'final_level': 7,
-        'enemies_min': 10,
-        'enemies_max': 20,
-        
+        "player_level": 1,
+        "game_level": 1,
+        "current_level": 1,
+        "attack_min": 0,
+        "attack_max": 2,
+        "enemies_min": 6,
+        "enemies_max": 15,
+        "player_score": 0,
     }
-    
-    
-    
+
     def __new__(cls, *args, **kwargs):
         if not cls.__instance:
             cls.__instance = super().__new__(cls, *args, **kwargs)
         return cls.__instance
-    
+
     def __init__(self):
-        self.__dict__ =  self.__levels_dict
+        self.__dict__ = self.__levels_dict
+        self.enemies_attack = round(
+            lerp(self.enemies_min, self.enemies_max, self.attack_min / self.attack_max)
+        )
+
+    def update_levels(self):
+        self.enemies_attack = round(
+            lerp(self.enemies_min, self.enemies_max, self.attack_min / self.attack_max)
+        )

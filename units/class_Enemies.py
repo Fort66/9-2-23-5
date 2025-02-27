@@ -57,7 +57,7 @@ class Enemies(Sprite):
         self.rect.center = self.pos
         self.direction = Vector2(self.pos)
 
-        self.sprite_groups.enemies_group.add(
+        self.sprite_groups.camera_group.add(
             shield := Guardian(
                 dir_path="images/Guards/guard2",
                 speed_frame=0.09,
@@ -170,8 +170,7 @@ class Enemies(Sprite):
         self.check_position()
         self.rotation()
         self.check_move_count()
-        # self.move()
-        # self.shield.animate(self.rect)
+        self.move()
         self.shot()
 
         enemies_collision()
