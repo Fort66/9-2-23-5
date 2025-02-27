@@ -151,6 +151,7 @@ class Enemies(Sprite):
                             color="yellow",
                             image="images/Rockets/shot1.png",
                             scale_value=0.09,
+                            owner=self
                         )
                     )
                     self.sprite_groups.enemies_shot_group.add(shot)
@@ -163,7 +164,6 @@ class Enemies(Sprite):
         # self.shield.animate(self.rect)
         self.shot()
 
-        if not len(self.sprite_groups.enemies_guard_group):
-            enemies_collision(self)
+        enemies_collision()
 
         weapons.update_weapons(self, self.angle)

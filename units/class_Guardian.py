@@ -40,7 +40,7 @@ class Guardian(Animator, Sprite):
 
 
     def update(self):
-        # player_guard_collision()
+        player_guard_collision()
         # enemies_guard_collision()
         # guards_collision()
 

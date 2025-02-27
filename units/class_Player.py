@@ -89,6 +89,7 @@ class Player(Sprite):
                     kill_shot_distance=2000,
                     image="images/Rockets/shot3.png",
                     scale_value=0.2,
+                    owner=self
                 )
             )
             self.sprite_groups.player_shot_group.add(shot)
@@ -121,7 +122,6 @@ class Player(Sprite):
         self.check_position()
         self.move()
 
-        if not len(self.sprite_groups.player_guard_group):
-            player_collision(self)
+        player_collision()
 
         weapons.update_weapons(self, self.angle)

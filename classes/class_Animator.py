@@ -62,9 +62,12 @@ class Animator:
             self.frame_time = time()
 
         if time() - self.frame_time >= self.frames[self.frame][1]:
-            if self.loops == -1 or self.loops > 0:
+            if self.loops == -1:
                 self.frame = self.frame + 1 if self.frame < len(self.frames) - 1 else 0
             else:
-                self.frame = self.frame + 1 if self.frame < len(self.frames) - 1 else self.frames[-1]
+                if self.loops > 0:
+                    self.frame = self.frame + 1 if self.frame < len(self.frames) - 1 else self.frames[-1]
+                    if self.frame == len(self.frames) - 1:
+                        self.loops -= 1
             self.frame_time = time()
 

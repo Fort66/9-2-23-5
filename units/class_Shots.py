@@ -7,6 +7,10 @@ from pygame.image import load
 from icecream import ic
 
 from classes.class_SpriteGroups import SpriteGroups
+from functions.function_shots_collision import (
+    player_guard_collision,
+    enemies_guard_collision,
+    )
 
 
 class Shots(Sprite):
@@ -33,6 +37,7 @@ class Shots(Sprite):
         self.damage = damage
         self.speed = speed
         self.owner = owner
+        self.size = size
         self.old_shot_coordinate = Vector2(self.shoter.rect.center)
         if image:
             self.image = scale_by(load(image).convert_alpha(), scale_value)
@@ -60,3 +65,5 @@ class Shots(Sprite):
     def update(self):
         self.check_position()
         self.move()
+        player_guard_collision(self)
+        enemies_guard_collision(self)
