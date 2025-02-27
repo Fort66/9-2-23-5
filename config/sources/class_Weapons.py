@@ -17,3 +17,10 @@ class Weapons:
     def vector_rotation(self, vector, angle):
         vector = Vector2(vector)
         return vector.rotate_rad(angle)
+
+    def update_weapons(self, obj, angle):
+        value = self.pos_rotation(obj, angle)
+        for pos in value:
+            pos[0] += obj.direction.x
+            pos[1] += obj.direction.y
+        # return pos[0], pos[1] #TODO

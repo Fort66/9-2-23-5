@@ -1,4 +1,4 @@
-from pygame.sprite import groupcollide, spritecollide
+from pygame.sprite import groupcollide, spritecollideany
 from classes.class_SpriteGroups import SpriteGroups
 
 from icecream import ic

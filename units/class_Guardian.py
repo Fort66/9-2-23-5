@@ -1,4 +1,5 @@
 from pygame.sprite import Sprite
+from pygame.transform import rotozoom
 from classes.class_Animator import Animator
 from functions.function_guards_collision import player_guard_collision, enemies_guard_collision, guards_collision
 
@@ -10,20 +11,28 @@ class Guardian(Animator, Sprite):
         self,
         dir_path=None,
         speed_frame=None,
-        obj_rect=None,
+        obj=None,
         guard_level=None,
-        obj=None
+        loops=None,
+        size=None,
+        angle=None,
+        scale_value=None,
+        owner=None
     ):
         super().__init__(
             dir_path=dir_path,
             speed_frame=speed_frame,
-            obj_rect=obj_rect,
-            obj=obj
+            loops=loops,
+            size=size,
+            scale_value=scale_value,
             )
 
         self.guard_level = guard_level
+        self.angle = angle
+        self.obj=obj
+        self.owner = owner
         self.destruction_time = 0
-        # self.obj_rect = obj_rect
+        self.rect = self.image_rotation.get_rect(center=self.obj.rect.center)
 
     def decrease_level(self, value):
         if self.guard_level > 0:
@@ -31,9 +40,15 @@ class Guardian(Animator, Sprite):
 
 
     def update(self):
-        player_guard_collision()
-        enemies_guard_collision()
-        guards_collision()
+        # player_guard_collision()
+        # enemies_guard_collision()
+        # guards_collision()
+
+        self.angle = self.obj.angle
+        # self.rect.center = self.obj.rect.center #TODO
+        self.image_rotation = self.frames[self.frame][0]
+        self.image_rotation = rotozoom(self.image_rotation, self.angle, 1)
+        self.rect = self.image_rotation.get_rect(center=self.obj.rect.center) #TODO
+        super().animate()
             # if self.destruction_time <= 0:
             #     self.destruction_time = time()
-        super().update()

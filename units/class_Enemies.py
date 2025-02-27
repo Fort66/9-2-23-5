@@ -56,15 +56,19 @@ class Enemies(Sprite):
         self.rect.center = self.pos
         self.direction = Vector2(self.pos)
 
-        self.shield = Guardian(
+        self.sprite_groups.enemies_group.add(shield:= Guardian(
             dir_path="images/Guards/guard2",
             speed_frame=0.09,
-            obj_rect=self.rect,
-            guard_level=randint(3, 10),
             obj=self,
-        )
+            guard_level=randint(3, 10),
+            loops=-1,
+            size=self.rect.size,
+            angle=self.angle,
+            scale_value=(1, 1),
+            owner=self
+        ))
 
-        self.sprite_groups.enemies_guard_group.add(self.shield)
+        self.sprite_groups.enemies_guard_group.add(shield)
 
         self.prepare_weapons(0)
 
@@ -162,7 +166,4 @@ class Enemies(Sprite):
         if not len(self.sprite_groups.enemies_guard_group):
             enemies_collision(self)
 
-        value = self.pos_weapons_rotation()
-        for pos in value:
-            pos[0] += self.direction.x
-            pos[1] += self.direction.y
+        weapons.update_weapons(self, self.angle)

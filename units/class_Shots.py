@@ -13,8 +13,6 @@ class Shots(Sprite):
     def __init__(
         self,
         pos=(0, 0),
-        group=None,
-        screen=None,
         size=(20, 3),
         color="white",
         speed=0,
@@ -24,6 +22,7 @@ class Shots(Sprite):
         image=None,
         scale_value=None,
         damage=None,
+        owner=None
     ):
         self.sprite_groups = SpriteGroups()
         super().__init__(self.sprite_groups.camera_group)
@@ -33,6 +32,7 @@ class Shots(Sprite):
         self.kill_shot_distance = kill_shot_distance
         self.damage = damage
         self.speed = speed
+        self.owner = owner
         self.old_shot_coordinate = Vector2(self.shoter.rect.center)
         if image:
             self.image = scale_by(load(image).convert_alpha(), scale_value)

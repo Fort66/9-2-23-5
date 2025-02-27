@@ -39,14 +39,18 @@ class Player(Sprite):
         self.speed = HEROES[1]["speed"]
         self.rotation_speed = HEROES[1]["rotation_speed"]
 
-        self.shield = Guardian(
+        self.sprite_groups.player_group.add(shield:= Guardian(
             dir_path="images/Guards/guard1",
             speed_frame=0.09,
-            obj_rect=self.rect,
-            guard_level=10,
             obj=self,
-        )
-        self.sprite_groups.player_guard_group.add(self.shield)
+            guard_level=10,
+            loops=-1,
+            angle=self.angle,
+            scale_value=(1, 1),
+            size=self.rect.size,
+            owner=self
+        ))
+        self.sprite_groups.player_guard_group.add(shield)
 
         self.prepare_weapons(0)
 
@@ -120,7 +124,4 @@ class Player(Sprite):
         if not len(self.sprite_groups.player_guard_group):
             player_collision(self)
 
-        value = self.pos_weapons_rotation()
-        for pos in value:
-            pos[0] += self.direction.x
-            pos[1] += self.direction.y
+        weapons.update_weapons(self, self.angle)
