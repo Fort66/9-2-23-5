@@ -9,6 +9,8 @@ from units.class_Enemies import Enemies
 
 from classes.class_SpriteGroups import SpriteGroups
 from UI.screens.class_MiniMap import MiniMap
+from logic.function_reset_game import reset_game
+from logic.function_up_level import up_level
 
 
 class Game:
@@ -20,7 +22,7 @@ class Game:
         self.clock = pg.time.Clock()
         self.sprite_groups = SpriteGroups()
         self.sprite_groups.camera_group = CameraGroup(self)
-        self.mini_map = MiniMap(scale_value=.15, color_map=(0, 100, 0, 170))
+        self.mini_map = MiniMap(scale_value=.07, color_map=(0, 100, 0, 170))
         self.setup()
 
     def setup(self):
@@ -45,28 +47,12 @@ class Game:
 
             self.check_events.check_events()
 
-            if len(self.sprite_groups.player_group) == 0:
-                self.sprite_groups.camera_group.empty()
-                self.clear_player_groups()
-                self.clear_enemies_groups()
-                levels_game.attack_min += 1
-                levels_game.current_level += 1
-                levels_game.update_levels()
-                self.sprite_groups.camera_group.set_background()
-                self.setup()
+            reset_game(self)
+            up_level(self)
 
-            if len(self.sprite_groups.enemies_group) == 0:
-                self.sprite_groups.camera_group.empty()
-                self.clear_player_groups()
-                self.clear_enemies_groups()
-                levels_game.attack_min = 0
-                levels_game.current_level = 1
-                levels_game.update_levels()
-                self.sprite_groups.camera_group.set_background()
-                self.setup()
 
             self.sprite_groups.camera_group.update()
-            self.sprite_groups.camera_group.custom_draw(self.player)
+            # self.sprite_groups.camera_group.custom_draw(self.player)
 
             self.screen.update_caption(f"{str(round(self.clock.get_fps(), 2))}")
             pg.display.update()

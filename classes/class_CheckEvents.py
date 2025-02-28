@@ -1,6 +1,8 @@
 import pygame as pg
 from pygame.locals import QUIT, KEYDOWN, K_ESCAPE, VIDEORESIZE
 
+from icecream import ic
+
 
 class CheckEvents:
     def __init__(self, game=None):
@@ -12,6 +14,7 @@ class CheckEvents:
                 self.game.run = False
 
             self.game.player.handle_event(event)
-            
+
             if event.type == VIDEORESIZE:
                 self.game.screen.rect = self.game.screen.window.get_rect()
+

@@ -5,6 +5,7 @@ from pygame.math import Vector2
 from pygame.key import get_pressed
 
 import math
+from time import time
 
 from units.class_Shots import Shots
 from units.class_Guardian import Guardian
@@ -34,6 +35,8 @@ class Player(Sprite):
         self.angle = 0
         self.first_shot = False
         self.hp = 5
+        self.shot_time = 1
+        self.permission_shot = .25
         self.__post_init__()
 
     def __post_init__(self):
@@ -80,7 +83,11 @@ class Player(Sprite):
             if event.button == 1:
                 if not self.first_shot:
                     self.first_shot = not self.first_shot
-                self.shot()
+                if self.shot_time == 0:
+                    self.shot_time = time()
+                if time() - self.shot_time >= self.permission_shot:
+                    self.shot()
+                    self.shot_time = time()
 
     def shot(self):
         value = self.pos_weapons_rotation()
