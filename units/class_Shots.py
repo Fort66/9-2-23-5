@@ -13,34 +13,49 @@ from functions.function_shots_collision import (
     shots_collision,
     distance_collision
     )
+from functions.function_load_source import load_json_source
 
 
 class Shots(Sprite):
     def __init__(
         self,
+        types=None,
         pos=(0, 0),
         size=(20, 3),
         color="white",
-        speed=0,
+        speed=0, #
         angle=0,
-        kill_shot_distance=None,
-        image=None,
-        scale_value=None,
-        damage=None,
+        kill_shot_distance=None, #
+        scale_value=None, #
+        damage=None, #
         owner=None
     ):
+        if types:
+            self.source = load_json_source(
+                dir_path='config/sources/rockets',
+                level=types
+            )
+            self.image = self.source['image']
+            self.speed = self.source['speed']
+            self.damage = self.source['damage']
+            self.scale_value = self.source['scale_value']
+            self.kill_shot_distance = self.source['kill_shot_distance']
+        else:
+            self.scale_value = scale_value
+            self.kill_shot_distance = kill_shot_distance
+            self.damage = damage
+            self.speed = speed
+
         self.sprite_groups = SpriteGroups()
         super().__init__(self.sprite_groups.camera_group)
 
         self.angle = angle
-        self.kill_shot_distance = kill_shot_distance
-        self.damage = damage
-        self.speed = speed
         self.owner = owner
         self.size = size
         self.old_shot_coordinate = Vector2(self.owner.rect.center)
-        if image:
-            self.image = scale_by(load(image).convert_alpha(), scale_value)
+
+        if self.image:
+            self.image = scale_by(load(self.image).convert_alpha(), self.scale_value)
         else:
             self.image = pg.Surface(size, pg.SRCALPHA)
             self.image.fill(color)

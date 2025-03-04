@@ -1,0 +1,7 @@
+{
+    "image": "images/rockets/1.png",
+    "speed": 8,
+    "damage": 1,
+    "kill_shot_distance": 2000,
+    "scale_value": [0.09, 0.09]
+}

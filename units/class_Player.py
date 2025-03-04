@@ -25,6 +25,11 @@ HERO = load_python_file_source(
     name_source='HERO'
     )
 
+PLAYER_CONFIG = load_python_file_source(
+    dir_path='config',
+    module_name='player_config',
+    
+)
 
 class Player(Sprite):
     def __init__(
@@ -53,12 +58,8 @@ class Player(Sprite):
 
         self.sprite_groups.camera_group.add(
             shield := Guardian(
-                dir_path="images/Guards/guard1",
-                speed_frame=0.09,
-                guard_level=10,
-                loops=-1,
+                types=2,
                 angle=self.angle,
-                scale_value=(1, 1),
                 size=self.rect.size,
                 owner=self,
             )
@@ -99,12 +100,9 @@ class Player(Sprite):
         for pos in value:
             self.sprite_groups.camera_group.add(
                 shot := Shots(
+                    types=2,
                     pos=(pos),
-                    speed=8,
                     angle=self.angle,
-                    kill_shot_distance=2000,
-                    image="images/Rockets/shot3.png",
-                    scale_value=0.2,
                     owner=self,
                 )
             )

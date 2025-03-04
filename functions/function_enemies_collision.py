@@ -15,10 +15,11 @@ def enemies_collision():
     )
     if object_collide:
         lot_hits = len(list(object_collide.values())[0])
+        hits_damage = list(object_collide.values())[0][0].damage
         hits = list(object_collide.keys())[0]
 
         if hits.hp > 0:
-            hits.decrease_hp(lot_hits)
+            hits.decrease_hp(lot_hits * hits_damage)
 
         if hits.hp <= 0:
             explosion = Explosion(

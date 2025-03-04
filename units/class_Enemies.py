@@ -33,10 +33,10 @@ class Enemies(Sprite):
 
         self.player = player
         self.angle = 0
-        self.min_distance = 300
-        self.shot_distance = 1500
+        self.min_distance = ENEMY['min_distance']
+        self.shot_distance = ENEMY['shot_distance']
         self.is_min_distance = False
-        self.hp = 2
+        self.hp = ENEMY['hp']
         self.shot_time = 0
         self.__post_init__()
         self.random_value()
@@ -67,13 +67,9 @@ class Enemies(Sprite):
 
         self.sprite_groups.camera_group.add(
             shield := Guardian(
-                dir_path="images/Guards/guard2",
-                speed_frame=0.09,
-                guard_level=randint(3, 10),
-                loops=-1,
+                types=2,
                 size=self.rect.size,
                 angle=self.angle,
-                scale_value=(1, 1),
                 owner=self,
             )
         )
@@ -109,16 +105,16 @@ class Enemies(Sprite):
         self.rect = self.image_rotation.get_rect(center=self.rect.center)
 
     def random_value(self):
-        self.move_count = randint(0, 600)
-        self.speed = randint(0, 5)
-        self.direction_list = [0, 1, -1]
-        self.permission_shot = uniform(1, 3)
+        self.move_counter = uniform(ENEMY['move_counter'][0], ENEMY['move_counter'][1])
+        self.move_time = time()
+        self.speed = randint(ENEMY['speed'][0], ENEMY['speed'][1])
+        self.direction_list = ENEMY['direction_list']
+        self.permission_shot = uniform(ENEMY['permission_shot'][0], ENEMY['permission_shot'][1])
 
     def check_move_count(self):
-        if self.move_count <= 0:
+        if time() - self.move_time >= self.move_counter:
             self.random_value()
-        else:
-            self.move_count -= 1
+            self.change_direction()
 
     def change_direction(self):
         self.moveX = choice(self.direction_list)
@@ -157,13 +153,10 @@ class Enemies(Sprite):
                     for pos in value:
                         self.sprite_groups.camera_group.add(
                             shot := Shots(
-                                pos=(pos),
-                                speed=8,
+                                types=1,
                                 angle=self.angle,
-                                kill_shot_distance=2000,
+                                pos=(pos),
                                 color="yellow",
-                                image="images/Rockets/shot1.png",
-                                scale_value=0.09,
                                 owner=self,
                             )
                         )
