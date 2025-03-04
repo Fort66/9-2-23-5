@@ -15,10 +15,17 @@ from classes.class_SpriteGroups import SpriteGroups
 
 class Animator:
     def __init__(
-        self, dir_path=None, speed_frame=None, loops=None, scale_value=None, size=None
+        self,
+        dir_path=None,
+        speed_frame=None,
+        loops=None,
+        scale_value=None,
+        size=None,
+        no_group=False
     ):
-        self.sprite_groups = SpriteGroups()
-        super().__init__(self.sprite_groups.camera_group)
+        if not no_group:
+            self.sprite_groups = SpriteGroups()
+            super().__init__(self.sprite_groups.camera_group)
 
         self.dir_path = dir_path
         self.speed_frame = speed_frame

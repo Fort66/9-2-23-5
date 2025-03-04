@@ -23,7 +23,6 @@ class Shots(Sprite):
         color="white",
         speed=0,
         angle=0,
-        shoter=None,
         kill_shot_distance=None,
         image=None,
         scale_value=None,
@@ -34,13 +33,12 @@ class Shots(Sprite):
         super().__init__(self.sprite_groups.camera_group)
 
         self.angle = angle
-        self.shoter = shoter
         self.kill_shot_distance = kill_shot_distance
         self.damage = damage
         self.speed = speed
         self.owner = owner
         self.size = size
-        self.old_shot_coordinate = Vector2(self.shoter.rect.center)
+        self.old_shot_coordinate = Vector2(self.owner.rect.center)
         if image:
             self.image = scale_by(load(image).convert_alpha(), scale_value)
         else:

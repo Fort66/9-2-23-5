@@ -10,13 +10,19 @@ from time import time
 import math
 from random import randint, choice, uniform
 
-from config.sources.enemies.source import ENEMIES
-
 from classes.class_SpriteGroups import SpriteGroups
 from config.create_Objects import checks, weapons
 
 
 from functions.function_enemies_collision import enemies_collision
+from functions.function_load_source import load_python_file_source
+
+ENEMY = load_python_file_source(
+    dir_path='config.sources.enemies',
+    module_name='source',
+    level=1,
+    name_source='ENEMY'
+)
 
 
 class Enemies(Sprite):
@@ -37,7 +43,7 @@ class Enemies(Sprite):
         self.change_direction()
 
     def __post_init__(self):
-        self.image = ENEMIES[1]["angle"][0]["sprite"]
+        self.image = ENEMY["angle"][0]["sprite"]
         self.image_rotation = self.image.copy()
         self.rect = self.image_rotation.get_rect()
 
@@ -63,7 +69,6 @@ class Enemies(Sprite):
             shield := Guardian(
                 dir_path="images/Guards/guard2",
                 speed_frame=0.09,
-                obj=self,
                 guard_level=randint(3, 10),
                 loops=-1,
                 size=self.rect.size,
@@ -79,7 +84,7 @@ class Enemies(Sprite):
 
     def prepare_weapons(self, angle):
         weapons.load_weapons(
-            obj=self, source=ENEMIES[1]["angle"][angle]["weapons"], angle=angle
+            obj=self, source=ENEMY["angle"][angle]["weapons"], angle=angle
         )
 
     def pos_weapons_rotation(self):
@@ -95,9 +100,9 @@ class Enemies(Sprite):
         else:
             self.angle = 360 + angle_vector
 
-        for value in ENEMIES[1]["angle"]:
+        for value in ENEMY["angle"]:
             if self.angle <= value:
-                self.image = ENEMIES[1]["angle"][value]["sprite"]
+                self.image = ENEMY["angle"][value]["sprite"]
                 break
 
         self.image_rotation = rotozoom(self.image, self.angle, 1)
@@ -155,7 +160,6 @@ class Enemies(Sprite):
                                 pos=(pos),
                                 speed=8,
                                 angle=self.angle,
-                                shoter=self,
                                 kill_shot_distance=2000,
                                 color="yellow",
                                 image="images/Rockets/shot1.png",

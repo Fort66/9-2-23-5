@@ -4,7 +4,7 @@ from pygame.image import load
 from pygame.sprite import Group
 from pygame.math import Vector2
 from config.create_Objects import levels_game
-from functions.function_load_source import load_source
+from functions.function_load_source import load_json_source
 
 
 
@@ -22,7 +22,7 @@ class CameraGroup(Group):
         self.set_background()
 
     def set_background(self):
-        self.source = load_source(
+        self.source = load_json_source(
             dir_path='config/sources/backgrounds',
             level=levels_game.game_level,
             current_level=levels_game.current_level
@@ -35,7 +35,7 @@ class CameraGroup(Group):
         self.offset = Vector2()
         self.half = (self.display_surface.get_size()[0] // 2, self.display_surface.get_size()[1] // 2)
 
-    def change_size_map(self):
+    def check_screen_size(self):
         if self.old_screen_size != self.game.screen.window.get_size():
             self.change_screen_size()
             self.old_screen_size = self.game.screen.window.get_size()
@@ -58,7 +58,7 @@ class CameraGroup(Group):
         self.game.mini_map.update()
 
     def update(self):
-        self.change_size_map()
+        self.check_screen_size()
         super().update()
         self.custom_draw(self.game.player)
 

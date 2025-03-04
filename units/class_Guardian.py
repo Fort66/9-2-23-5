@@ -11,7 +11,6 @@ class Guardian(Animator, Sprite):
         self,
         dir_path=None,
         speed_frame=None,
-        obj=None,
         guard_level=None,
         loops=None,
         size=None,
@@ -29,10 +28,9 @@ class Guardian(Animator, Sprite):
 
         self.guard_level = guard_level
         self.angle = angle
-        self.obj=obj
         self.owner = owner
         self.destruction_time = 0
-        self.rect = self.image_rotation.get_rect(center=self.obj.rect.center)
+        self.rect = self.image_rotation.get_rect(center=self.owner.rect.center)
 
     def decrease_level(self, value):
         if self.guard_level > 0:
@@ -42,13 +40,13 @@ class Guardian(Animator, Sprite):
     def update(self):
         player_guard_collision()
         enemies_guard_collision()
-        # guards_collision()
 
-        self.angle = self.obj.angle
-        # self.rect.center = self.obj.rect.center #TODO
+        self.angle = self.owner.angle
+        self.rect.center = self.owner.rect.center
         self.image_rotation = self.frames[self.frame][0]
         self.image_rotation = rotozoom(self.image_rotation, self.angle, 1)
-        self.rect = self.image_rotation.get_rect(center=self.obj.rect.center) #TODO
+        self.rect = self.image_rotation.get_rect(center=self.rect.center)
         super().animate()
-        if self.destruction_time <= 0:
-            self.destruction_time = time()
+        if guards_collision():
+            if self.destruction_time <= 0:
+                self.destruction_time = time()
